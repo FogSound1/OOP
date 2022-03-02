@@ -27,7 +27,7 @@ def fillin():
             break
         text += row + '\n'
     file.write(text[:-1])
-    file.close
+    file.close()
     print('\n')
 
 
