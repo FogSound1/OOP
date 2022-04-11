@@ -1,108 +1,106 @@
 #include <iostream>
-#include "Lab 2C++.h"
+#include <ctime>
 #include <iomanip>
+#include "Lab 2C++.h"
 using namespace std;
 
-class numarr
+class Array
 {
+private:
+    int* arr;
+    int size;
 public:
-	int size;
+    Array(int n, int method)
+    {
+        size = n;
+        arr = new int[size];
+        if (method == 1)
+        {
+            arrgen();
+        }
+        else
+        {
+            arrgenman();
+        }
+    }
 
-	int* arrgenauto(int size)
-	{
-		int* arr = new int[size];
-		for (int i = 0; i < size; i++)
-		{
-			arr[i] = 1 + rand() % 100;
-		}
-		return arr;
-	}
-	int* arrgenman(int size)
-	{
-		int* arr = new int[size];
-		for (int i = 0; i < size; i++)
-		{
-			int n;
-			cout << "Ââåäèòå ýëåìåíò ìàññèâà íîìåð " << i + 1 << "\t";
-			cin >> n;
-			arr[i] = n;
-		}
-		cout << "Ìàññèâ çàïîëíåí\n";
-		return arr;
-	}
+    void arrgen()
+    {
+
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = rand() % 100;
+        }
+    }
+
+    void arrgenman()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            int n;
+            cout << "\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¼Ð°ÑÑÐ¸Ð²Ð° Ð½Ð¾Ð¼ÐµÑ€ " << i + 1 << "\t";
+            cin >> n;
+            arr[i] = n;
+        }
+        cout << "ÐœÐ°ÑÑÐ¸Ð² Ð·Ð°Ð¿Ð¾Ð»Ð½ÐµÐ½\n";
+    }
+
+    void output()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            cout << setw(10) << arr[i];
+        }
+    }
+
+    int maxnum()
+    {
+        int max = arr[0];
+        for (int i = 0; i < size; i++)
+        {
+            if (arr[i] > max)
+            {
+                max = arr[i];
+            }
+        }
+        return max;
+    }
 };
 
 void operation()
 {
-	setlocale(LC_ALL, "rus");
-	int n, size;
-	int m = 0;
-	cout << "Ââåäèòå êîëè÷åñòâî îáúåêòîâ êëàññà ";
-	cin >> n;
-	cout << "Ââåäèòå ðàçìåðíîñòü ìàññèâîâ ";
-	cin >> size;
-	while (m != 1 && m != 2)
-	{
-		cout << "Ââåäèòå 1, ÷òîáû çàïîëíèòü ìàññèâû ñàìîñòîÿòåëüíî\nÂâåäèòå 2, ÷òîáû çàïîëíèòü ìàññèâû àâòîìàòè÷åñêè\n";
-		cin >> m;
-	}
-	fillin(n, m, size);
+    setlocale(LC_ALL, "rus");
+    int quant, n;
+    int method = 0;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² ÐºÐ»Ð°ÑÑÐ° ";
+    cin >> quant;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð½Ð¾ÑÑ‚ÑŒ Ð¼Ð°ÑÑÐ¸Ð²Ð¾Ð² ";
+    cin >> n;
+    while (method != 1 && method != 2)
+    {
+        cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ 1, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð¼Ð°ÑÑÐ¸Ð²Ñ‹ Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸\nÐ’Ð²ÐµÐ´Ð¸Ñ‚Ðµ 2, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÑŒ Ð¼Ð°ÑÑÐ¸Ð²Ñ‹ ÑÐ°Ð¼Ð¾ÑÑ‚Ð¾ÑÑ‚ÐµÐ»ÑŒÐ½Ð¾\n";
+        cin >> method;
+    }
+    execution(quant, n, method);
 }
 
-void fillin(int n, int m, int size)
+void execution(int quant, int n, int method)
 {
-	numarr arrnum;
-	int** overall = new int*[n];
-	if (m == 1)
-	{
-		for (int i = 0; i < n; i++)
-		{
-			overall[i] = arrnum.arrgenman(size);
-		}
-	}
-	else if (m == 2)
-	{
-		for (int i = 0; i < n; i++)
-		{
-			overall[i] = arrnum.arrgenauto(size);
-		}
-	}
-	outputarr(overall, n, size);
-}
-
-void outputarr(int** overall, int n, int size)
-{
-	for (int i = 0; i < n; i++)
-	{
-		cout << "\nÌàññèâ íîìåð " << i + 1 << "\n";
-		for (int j = 0; j < size; j++)
-		{
-			cout << setw(10) << overall[i][j];
-		}
-	}
-	minmax(overall, n, size);
-}
-
-void minmax(int** overall, int n, int size)
-{
-	int max = overall[0][0];
-	int min = 101;
-	int numbermin = 0;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < size; j++)
-		{
-			if (overall[i][j] > max)
-			{
-				max = overall[i][j];
-			}
-		}
-		if (max < min)
-		{
-			numbermin = i;
-			min = max;
-		}
-	}
-	cout << "\n\nÌàññèâ ñ ñàìûì ìèíèìàëüíûì ìàêñèìóì - ìàññèâ íîìåð " << numbermin + 1 << '\n';
-	cout << "Ýòîò ýëåìåíò ðàâåí " << min << endl;
+    int min = 101;
+    int max;
+    int arrnumber = 0;
+    for (int i = 0; i < quant; i++)
+    {
+        Array arr(n, method);
+        cout << "\nÐœÐ°ÑÑÐ¸Ð² Ð½Ð¾Ð¼ÐµÑ€ " << i + 1 << "\n";
+        arr.output();
+        max = arr.maxnum();
+        if (max < min)
+        {
+            min = max;
+            arrnumber = i;
+        }
+    }
+    cout << "\n\nÐœÐ°ÑÑÐ¸Ð² Ñ ÑÐ°Ð¼Ñ‹Ð¼ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¼ Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼ - Ð¼Ð°ÑÑÐ¸Ð² Ð½Ð¾Ð¼ÐµÑ€ " << arrnumber + 1 << '\n';
+    cout << "Ð­Ñ‚Ð¾Ñ‚ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ñ€Ð°Ð²ÐµÐ½ " << min << endl;
 }
